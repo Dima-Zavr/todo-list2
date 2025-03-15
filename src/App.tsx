@@ -1,17 +1,16 @@
 import { Container, Button, Box, Typography } from "@mui/material";
 import { observer } from "mobx-react";
 import { taskStore } from "./store/taskStore.ts";
+import { modalStore } from "./store/modalStore.ts";
 import { MyModal } from "./components/MyModal/MyModal.tsx";
-import { useState } from "react";
 import { MyCard } from "./components/MyCard/MyCard.tsx";
 
 export const App = observer(() => {
-    const [isModal, setIsModal] = useState(false);
 
     const openModal = () => {
-        setIsModal(true);
+        modalStore.setIsOpen();
     };
-    
+
     return (
         <>
             <Container maxWidth="lg">
@@ -23,7 +22,7 @@ export const App = observer(() => {
                     {taskStore.tasks?.map((task, num) => <MyCard task={task} key={num} />)}
                 </Box>
             </Container>
-            <MyModal isOpen={isModal} setIsOpen={setIsModal} />
+            <MyModal />
         </>
     );
 });

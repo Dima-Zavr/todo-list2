@@ -1,11 +1,7 @@
 import { Modal, Typography, Box, TextField, MenuItem, Button } from "@mui/material";
 import { taskStore } from "../../store/taskStore.ts";
+import { modalStore } from "../../store/modalStore.ts";
 import { observer } from "mobx-react";
-
-interface IModal {
-    isOpen: boolean;
-    setIsOpen: (open: boolean) => void;
-}
 
 const style = {
     position: "absolute",
@@ -18,25 +14,25 @@ const style = {
     p: 4
 };
 
-export const MyModal = observer(({ isOpen, setIsOpen }: IModal) => {
+export const MyModal = observer(() => {
     const handleClose = () => {
-        setIsOpen(false);
+        modalStore.setIsOpen();
     };
 
     // @ts-ignore
-    const handleSubmit = (event) => { // указывает на event как на ошибку не понимаю, как пофиксить
+    const handleSubmit = (event) => { // указывает на event как на ошибку, не понимаю как пофиксить
         event.preventDefault();
         let form = new FormData(event.target);
         let filtersObject = Object.fromEntries(form.entries());
         // @ts-ignore
         taskStore.addTask(filtersObject); // тоже что и выше
 
-        setIsOpen(false);
+        modalStore.setIsOpen();
     };
 
     return (
         <Modal
-            open={isOpen}
+            open={modalStore.isOpen}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
