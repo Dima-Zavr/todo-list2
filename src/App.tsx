@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Button, Box, Typography } from "@mui/material";
+import { observer } from "mobx-react";
+import { taskStore } from "./store/taskStore.ts";
+import { MyModal } from "./components/MyModal/MyModal.tsx";
+import { useState } from "react";
+import { MyCard } from "./components/MyCard/MyCard.tsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = observer(() => {
+    const [isModal, setIsModal] = useState(false);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    const openModal = () => {
+        setIsModal(true);
+    };
+    
+    return (
+        <>
+            <Container maxWidth="lg">
+                <Typography variant="h2">Todo-List</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                    <Button onClick={openModal} variant="contained" className="button">
+                        Добавить задачу
+                    </Button>
+                    {taskStore.tasks?.map((task, num) => <MyCard task={task} key={num} />)}
+                </Box>
+            </Container>
+            <MyModal isOpen={isModal} setIsOpen={setIsModal} />
+        </>
+    );
+});
