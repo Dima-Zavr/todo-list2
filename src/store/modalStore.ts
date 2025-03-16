@@ -1,15 +1,11 @@
 import { makeAutoObservable } from "mobx";
-
+import { ModalModel } from '../models/ModalModel.ts';
 
 class ModalStore {
-    isOpen: boolean = false;
+    public modal: ModalModel = new ModalModel();
 
     constructor() {
         makeAutoObservable(this);
-    }
-
-    setIsOpen() {
-        this.isOpen = !this.isOpen;
     }
 }
 

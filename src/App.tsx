@@ -6,9 +6,10 @@ import { MyModal } from "./components/MyModal/MyModal.tsx";
 import { MyCard } from "./components/MyCard/MyCard.tsx";
 
 export const App = observer(() => {
+    const { modal } = modalStore;
 
     const openModal = () => {
-        modalStore.setIsOpen();
+        modal.setIsOpen();
     };
 
     return (
@@ -19,7 +20,7 @@ export const App = observer(() => {
                     <Button onClick={openModal} variant="contained" className="button">
                         Добавить задачу
                     </Button>
-                    {taskStore.tasks?.map((task, num) => <MyCard task={task} key={num} />)}
+                    {taskStore.tasks?.map((task) => <MyCard task={task} key={task.id} />)}
                 </Box>
             </Container>
             <MyModal />

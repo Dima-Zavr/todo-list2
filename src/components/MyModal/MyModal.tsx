@@ -15,8 +15,10 @@ const style = {
 };
 
 export const MyModal = observer(() => {
+    const { modal } = modalStore;
+    
     const handleClose = () => {
-        modalStore.setIsOpen();
+        modal.setIsOpen();
     };
 
     // @ts-ignore
@@ -27,12 +29,12 @@ export const MyModal = observer(() => {
         // @ts-ignore
         taskStore.addTask(filtersObject); // тоже что и выше
 
-        modalStore.setIsOpen();
+        modal.setIsOpen();
     };
 
     return (
         <Modal
-            open={modalStore.isOpen}
+            open={modal.isOpen}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"

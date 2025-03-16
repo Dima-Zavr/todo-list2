@@ -1,12 +1,12 @@
-import { ITask } from "../../store/taskStore";
 import { Card, Typography, CardContent, Box, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { observer } from "mobx-react";
 import { taskStore } from "../../store/taskStore.ts";
+import { TaskModel } from "../../models/TaskModel";
 
 interface IMyCard {
-    task: ITask
+    task: TaskModel
 }
 
 export const MyCard = observer(({ task }: IMyCard) => {
@@ -15,7 +15,7 @@ export const MyCard = observer(({ task }: IMyCard) => {
     };
 
     const handleStatusChange = () => {
-        taskStore.changeStatusTask(task.id)
+        task.changeStatusTask()
     };
 
     return (
