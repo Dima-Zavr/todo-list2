@@ -2,14 +2,14 @@ import { Container, Button, Box, Typography } from "@mui/material";
 import { observer } from "mobx-react";
 import { taskStore } from "./store/taskStore.ts";
 import { modalStore } from "./store/modalStore.ts";
-import { MyModal } from "./components/MyModal/MyModal.tsx";
-import { MyCard } from "./components/MyCard/MyCard.tsx";
+import MyModal from "./components/MyModal/MyModal.tsx";
+import MyCard from "./components/MyCard/MyCard.tsx";
 
-export const App = observer(() => {
+const App = () => {
     const { modal } = modalStore;
 
     const openModal = () => {
-        modal.setIsOpen();
+        modal.Open();
     };
 
     return (
@@ -26,4 +26,5 @@ export const App = observer(() => {
             <MyModal />
         </>
     );
-});
+};
+export default observer(App)

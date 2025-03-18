@@ -1,20 +1,20 @@
 import { makeAutoObservable } from "mobx";
 import { TaskModel } from "../models/TaskModel";
+import { IModalTask } from "../interfaces/Modal/ModalInterfaces";
 
 class TaskStore {
-    tasks: TaskModel[] = [];
+    public tasks: TaskModel[] = [];
 
     constructor() {
-        makeAutoObservable(this);
+        makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    addTask(task: { name: string; description: string; type: "дом" | "работа" | "увлечения" }) {
+    public addTask(task: IModalTask) {
         const newTask = new TaskModel({ ...task, id: this.tasks.length + 1 })
         this.tasks.push(newTask);
-
     }
 
-    removeTask(id: number) {
+    public removeTask(id: number) {
         this.tasks = this.tasks.filter((el) => el.id !== id);
     }
 }

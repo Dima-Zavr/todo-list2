@@ -1,13 +1,17 @@
-import { makeAutoObservable } from "mobx";
+import { makeObservable } from "mobx";
 
 export class ModalModel {
     public isOpen = false;
 
     constructor() {
-        makeAutoObservable(this);
+        makeObservable(this, {}, { autoBind: true });
     }
 
-    public setIsOpen() {
-        this.isOpen = !this.isOpen;
+    public Open() {
+        this.isOpen = true;
+    }
+
+    public Close() {
+        this.isOpen = false;
     }
 }

@@ -1,11 +1,5 @@
 import { makeAutoObservable } from "mobx";
-
-export interface ITask {
-    id: number;
-    name: string;
-    description: string;
-    type: "дом" | "работа" | "увлечения";
-}
+import { ITask } from "../interfaces/Task/TaskInterfaces";
 
 export class TaskModel {
     public id;
@@ -14,16 +8,16 @@ export class TaskModel {
     public status;
     public type;
 
-    constructor({ id, name, description, type} : ITask) {
-        makeAutoObservable(this);
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    constructor(task : ITask) {
+        makeAutoObservable(this, {}, { autoBind: true });
+        this.id = task.id;
+        this.name = task.name;
+        this.description = task.description;
         this.status = false;
-        this.type = type;
+        this.type = task.type;
     }
 
-    changeStatusTask() {
+    public changeStatusTask() {
         this.status = !this.status
     }
 }

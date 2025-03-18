@@ -14,22 +14,16 @@ const style = {
     p: 4
 };
 
-export const MyModal = observer(() => {
+const MyModal = () => {
     const { modal } = modalStore;
-    
+
     const handleClose = () => {
-        modal.setIsOpen();
+        modal.Close();
     };
 
-    // @ts-ignore
-    const handleSubmit = (event) => { // указывает на event как на ошибку, не понимаю как пофиксить
-        event.preventDefault();
-        let form = new FormData(event.target);
-        let filtersObject = Object.fromEntries(form.entries());
-        // @ts-ignore
-        taskStore.addTask(filtersObject); // тоже что и выше
-
-        modal.setIsOpen();
+    const handleSubmit = () => {
+        taskStore.addTask(Object.assign(modal.getTask(), { id: taskStore.tasks.length + 1 }));
+        modal.Close();
     };
 
     return (
@@ -43,8 +37,17 @@ export const MyModal = observer(() => {
                 <Typography variant="h5" gutterBottom>
                     Форма
                 </Typography>
-                <form onSubmit={handleSubmit}>
-                    <TextField label="Название" variant="outlined" fullWidth margin="normal" name="name" required />
+                <form>
+                    <TextField
+                        label="Название"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        name="name"
+                        value={modal.name}
+                        onChange={(event) => modal.setName(event.target.value)}
+                        required
+                    />
                     <TextField
                         label="Описание"
                         variant="outlined"
@@ -53,6 +56,8 @@ export const MyModal = observer(() => {
                         multiline
                         rows={4}
                         name="description"
+                        value={modal.description}
+                        onChange={(event) => modal.setDescription(event.target.value)}
                         required
                     />
                     <TextField
@@ -62,18 +67,28 @@ export const MyModal = observer(() => {
                         fullWidth
                         margin="normal"
                         name="type"
-                        defaultValue=""
+                        value={modal.type}
+                        //@ts-ignore
+                        onChange={(event) => modal.setType(event.target.value)} // так как value: string, а в setType(value: Type)
                         required
                     >
                         <MenuItem value="Дом">Дом</MenuItem>
                         <MenuItem value="Работа">Работа</MenuItem>
                         <MenuItem value="Увлечения">Увлечения</MenuItem>
                     </TextField>
-                    <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSubmit}
+                        fullWidth
+                        sx={{ marginTop: 2 }}
+                    >
                         Создать задачу
                     </Button>
                 </form>
             </Box>
         </Modal>
     );
-});
+};
+export default observer(MyModal);

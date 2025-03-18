@@ -9,7 +9,7 @@ interface IMyCard {
     task: TaskModel
 }
 
-export const MyCard = observer(({ task }: IMyCard) => {
+const MyCard = ({ task }: IMyCard) => {
     const handleDelete = () => {
         taskStore.removeTask(task.id)
     };
@@ -33,7 +33,7 @@ export const MyCard = observer(({ task }: IMyCard) => {
                             Тип: {task.type}
                         </Typography>
                         <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-                            Статус: {(task.status) ? "Выполнено" : "Не Выполнено"}
+                            Статус: {task.status ? "Выполнено" : "Не Выполнено"}
                         </Typography>
                         <Typography variant="h5" component="div">
                             {task.name}
@@ -53,4 +53,5 @@ export const MyCard = observer(({ task }: IMyCard) => {
             </CardContent>
         </Card>
     );
-});
+};
+export default observer(MyCard);
