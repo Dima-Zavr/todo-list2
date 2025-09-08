@@ -1,7 +1,9 @@
 import { Modal, Typography, Box, TextField, MenuItem, Button } from "@mui/material";
-import { taskStore } from "../../store/taskStore.ts";
+import { notepadStore } from "../../store/NotepadStore.ts";
 import { modalStore } from "../../store/modalStore.ts";
+import { Priority } from "../../interfaces/Notepad/NotepadInterface.ts";
 import { observer } from "mobx-react";
+import ArrayInput from "../ArrayInput/ArrayInput.tsx";
 
 const style = {
     position: "absolute",
@@ -18,12 +20,16 @@ const MyModal = () => {
     const { modal } = modalStore;
 
     const handleClose = () => {
-        modal.Close();
+        modal.close();
     };
 
     const handleSubmit = () => {
-        taskStore.addTask(Object.assign(modal.getTask(), { id: taskStore.tasks.length + 1 }));
-        modal.Close();
+        if (modal.title === "Создание блокнота") {
+            notepadStore.addNotepad(modal);
+        } else {
+            notepadStore.updateNotepad(modal);
+        }
+        modal.close();
     };
 
     return (
@@ -35,58 +41,58 @@ const MyModal = () => {
         >
             <Box sx={style}>
                 <Typography variant="h5" gutterBottom>
-                    Форма
+                    {modal.title}
                 </Typography>
-                <form>
-                    <TextField
-                        label="Название"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        name="name"
-                        value={modal.name}
-                        onChange={(event) => modal.setName(event.target.value)}
-                        required
-                    />
-                    <TextField
-                        label="Описание"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        multiline
-                        rows={4}
-                        name="description"
-                        value={modal.description}
-                        onChange={(event) => modal.setDescription(event.target.value)}
-                        required
-                    />
-                    <TextField
-                        select
-                        label="Тип"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        name="type"
-                        value={modal.type}
-                        //@ts-ignore
-                        onChange={(event) => modal.setType(event.target.value)} // так как value: string, а в setType(value: Type)
-                        required
-                    >
-                        <MenuItem value="Дом">Дом</MenuItem>
-                        <MenuItem value="Работа">Работа</MenuItem>
-                        <MenuItem value="Увлечения">Увлечения</MenuItem>
-                    </TextField>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                        fullWidth
-                        sx={{ marginTop: 2 }}
-                    >
-                        Создать задачу
-                    </Button>
-                </form>
+                <TextField
+                    label="Название"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="name"
+                    value={modal.name}
+                    onChange={(event) => modal.setName(event.target.value)}
+                    required
+                />
+                <TextField
+                    label="Заметка"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    multiline
+                    rows={4}
+                    name="description"
+                    value={modal.description}
+                    onChange={(event) => modal.setDescription(event.target.value)}
+                    required
+                />
+                <ArrayInput label="Задача" startTasks={modal.tasks} />
+                <TextField
+                    select
+                    label="Приоритет"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="type"
+                    value={modal.type}
+                    onChange={(event) => modal.setType(event.target.value as Priority)}
+                    required
+                >
+                    <MenuItem value="Срочно и важно">Срочно и важно</MenuItem>
+                    <MenuItem value="Не срочно и важно">Не срочно и важно</MenuItem>
+                    <MenuItem value="Срочно и неважно">Срочно и неважно</MenuItem>
+                    <MenuItem value="Не срочно и неважно">Не срочно и неважно</MenuItem>
+                </TextField>
+
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSubmit}
+                    fullWidth
+                    sx={{ marginTop: 2 }}
+                >
+                    {modal.title === "Создание блокнота" ? "Сохранить" : "Редактировать"} блокнот
+                </Button>
             </Box>
         </Modal>
     );

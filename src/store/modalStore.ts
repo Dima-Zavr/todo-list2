@@ -1,8 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { TaskModalModel } from '../models/TaskModalModel.ts';
+import { NotepadModalModel } from '../models/NotepadModalModel.ts';
 
 class ModalStore {
-    public modal: TaskModalModel = new TaskModalModel();
+    public modal: NotepadModalModel = new NotepadModalModel();
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });

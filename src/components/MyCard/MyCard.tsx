@@ -1,25 +1,36 @@
-import { Card, Typography, CardContent, Box, IconButton } from "@mui/material";
+import { Card, Typography, CardContent, Box, IconButton, Stack, Chip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { observer } from "mobx-react";
-import { taskStore } from "../../store/taskStore.ts";
-import { TaskModel } from "../../models/TaskModel";
+import { modalStore } from "../../store/modalStore.ts";
+import { notepadStore } from "../../store/NotepadStore.ts";
+import { NotepadModel } from "../../models/NotepadModel.ts";
+import { PriorityColor } from "../../interfaces/Notepad/NotepadInterface.ts";
 
-interface IMyCard {
-    task: TaskModel
+interface IProps {
+    notepad: NotepadModel;
 }
 
-const MyCard = ({ task }: IMyCard) => {
-    const handleDelete = () => {
-        taskStore.removeTask(task.id)
+const MyCard = ({ notepad }: IProps) => {
+    const { modal } = modalStore;
+
+    const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        notepadStore.removeNotepad(notepad.id);
     };
 
-    const handleStatusChange = () => {
-        task.changeStatusTask()
+    const handleStatusChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        notepad.setStatus();
+    };
+
+    const openModal = () => {
+        modal.setModalData(notepad);
+        modal.open("Редактирование блокнота");
     };
 
     return (
-        <Card>
+        <Card onClick={openModal}>
             <CardContent>
                 <Box
                     sx={{
@@ -29,19 +40,29 @@ const MyCard = ({ task }: IMyCard) => {
                     }}
                 >
                     <Box>
-                        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-                            Тип: {task.type}
+                        <Stack direction="row" spacing={1} alignItems="center" >
+                            <Typography variant="body2" component="div">Дата:</Typography>
+                            <Chip label={`${notepad.date.toLocaleDateString()}`} color="info" />
+
+                            <Typography variant="body2" component="div">Время:</Typography>
+                            <Chip label={`${notepad.date.toLocaleTimeString()}`} color="info" />
+
+                            <Typography variant="body2" component="div">Приоритет:</Typography>
+                            <Chip label={`${notepad.type}`} color={PriorityColor[notepad.type]} />
+
+                            <Typography variant="body2" component="div">Тип:</Typography>
+                            <Chip
+                                label={notepad.status ? "Выполнено" : "Не Выполнено"}
+                                color={notepad.status ? "success" : "error"}
+                            />
+                        </Stack>
+                        <Typography variant="h4" component="div">
+                            {notepad.name}
                         </Typography>
-                        <Typography gutterBottom sx={{ color: "text.secondary", fontSize: 14 }}>
-                            Статус: {task.status ? "Выполнено" : "Не Выполнено"}
-                        </Typography>
-                        <Typography variant="h5" component="div">
-                            {task.name}
-                        </Typography>
-                        <Typography variant="body2">{task.description}</Typography>
+                        <Typography variant="body1">{notepad.description}</Typography>
                     </Box>
                     <Box>
-                        <IconButton onClick={handleStatusChange} aria-label="change-status">
+                        <IconButton onClick={(event) => handleStatusChange(event)} aria-label="change-status">
                             <CheckIcon />
                         </IconButton>
 

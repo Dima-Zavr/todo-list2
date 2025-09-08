@@ -1,11 +1,15 @@
 import { action, makeObservable, observable } from "mobx";
 import { ModalModel } from "./ModalModel";
-import { Type } from "../interfaces/Task/TaskInterfaces";
+import { INotepad, ITask, Priority } from "../interfaces/Notepad/NotepadInterface";
 
-export class TaskModalModel extends ModalModel {
+
+export class NotepadModalModel extends ModalModel {
+    public id = 0;
     public name = "";
     public description = "";
-    public type: Type = "";
+    public type: Priority = "";
+    public date: Date = new Date();
+    public tasks: ITask[] = [];
 
     constructor() {
         super();
@@ -17,7 +21,6 @@ export class TaskModalModel extends ModalModel {
             setName: action,
             setDescription: action,
             setType: action,
-            getTask: action
         });
     }
 
@@ -29,19 +32,23 @@ export class TaskModalModel extends ModalModel {
         this.description = description;
     }
 
-    public setType(type: Type) {
+    public setType(type: Priority) {
         this.type = type;
     }
-
-    public getTask() {
-        return {
-            name: this.name,
-            description: this.description,
-            type: this.type
-        };
+    public setTasks(tasks: ITask[]){
+        this.tasks = tasks;
     }
-
-    public Close() {
+    
+    public setModalData(data: INotepad) {
+        this.id = data.id;
+        this.name = data.name;
+        this.description = data.description;
+        this.type = data.type;
+        this.date = data.date;
+        this.tasks = data.tasks;
+    }
+    
+    public close() {
         this.isOpen = false;
         this.name = "";
         this.description = "";
