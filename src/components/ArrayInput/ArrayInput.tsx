@@ -79,7 +79,7 @@ const ArrayInput = ({ label, startTasks }: IProps) => {
                             <ListItemIcon>
                                 <Checkbox edge="start" checked={task.isChecked} tabIndex={-1} disableRipple />
                             </ListItemIcon>
-                            <ListItemText primary={task.value} />
+                            <ListItemText sx={{ textDecoration: task.isChecked ? "line-through" : "none" }} primary={task.value} />
                         </ListItemButton>
                     </ListItem>
                 ))}

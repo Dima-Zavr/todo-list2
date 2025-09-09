@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Modal, Typography, Box, TextField, MenuItem, Button } from "@mui/material";
 import { notepadStore } from "../../store/NotepadStore.ts";
 import { modalStore } from "../../store/modalStore.ts";
@@ -19,11 +20,21 @@ const style = {
 const MyModal = () => {
     const { modal } = modalStore;
 
+    const [errors, setErrors] = useState({
+        name: "",
+        type: ""
+    });
+
     const handleClose = () => {
         modal.close();
+        setErrors({
+            name: "",
+            type: ""
+        });
     };
 
     const handleSubmit = () => {
+        if(!validateForm()) return;
         if (modal.title === "Создание блокнота") {
             notepadStore.addNotepad(modal);
         } else {
@@ -31,6 +42,28 @@ const MyModal = () => {
         }
         modal.close();
     };
+
+    const validateForm = () => {
+        let isValid = true;
+        const newErrors = { ...errors };
+
+        if (!modal.name.trim()) {
+            newErrors.name = "Поле не может быть пустым";
+            isValid = false;
+        } else {
+            newErrors.name = "";
+        }
+
+        if (!modal.type.trim()) {
+            newErrors.type = "Поле не может быть пустым";
+            isValid = false;
+        } else {
+            newErrors.type = "";
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    }
 
     return (
         <Modal
@@ -49,23 +82,12 @@ const MyModal = () => {
                     fullWidth
                     margin="normal"
                     name="name"
+                    error={!!errors.name}
+                    helperText={errors.name}
                     value={modal.name}
                     onChange={(event) => modal.setName(event.target.value)}
                     required
                 />
-                <TextField
-                    label="Заметка"
-                    variant="outlined"
-                    fullWidth
-                    margin="normal"
-                    multiline
-                    rows={4}
-                    name="description"
-                    value={modal.description}
-                    onChange={(event) => modal.setDescription(event.target.value)}
-                    required
-                />
-                <ArrayInput label="Задача" startTasks={modal.tasks} />
                 <TextField
                     select
                     label="Приоритет"
@@ -73,15 +95,18 @@ const MyModal = () => {
                     fullWidth
                     margin="normal"
                     name="type"
+                    error={!!errors.type}
+                    helperText={errors.type}
                     value={modal.type}
                     onChange={(event) => modal.setType(event.target.value as Priority)}
                     required
                 >
                     <MenuItem value="Срочно и важно">Срочно и важно</MenuItem>
-                    <MenuItem value="Не срочно и важно">Не срочно и важно</MenuItem>
-                    <MenuItem value="Срочно и неважно">Срочно и неважно</MenuItem>
+                    <MenuItem value="Не срочно но важно">Не срочно но важно</MenuItem>
+                    <MenuItem value="Срочно но неважно">Срочно но неважно</MenuItem>
                     <MenuItem value="Не срочно и неважно">Не срочно и неважно</MenuItem>
                 </TextField>
+                <ArrayInput label="Введите задачу и нажмите Enter" startTasks={modal.tasks} />
 
                 <Button
                     type="submit"

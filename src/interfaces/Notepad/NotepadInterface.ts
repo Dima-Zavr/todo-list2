@@ -1,9 +1,9 @@
-export type Priority = "Срочно и важно" | "Не срочно и важно" | "Срочно и неважно" | "Не срочно и неважно" | "";
+export type Priority = "Срочно и важно" | "Не срочно но важно" | "Срочно но неважно" | "Не срочно и неважно" | "";
 
 export const PriorityColor = {
     "Срочно и важно": "error",
-    "Не срочно и важно": "warning",
-    "Срочно и неважно": "success",
+    "Не срочно но важно": "warning",
+    "Срочно но неважно": "success",
     "Не срочно и неважно": "primary",
     "": "primary"
 }
@@ -17,7 +17,7 @@ export interface ITask {
 export interface INotepad {
     id: number;
     name: string;
-    description: string;
+    status?: boolean;
     type: Priority;
     date: Date;
     tasks: ITask[];

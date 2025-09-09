@@ -30,7 +30,7 @@ const MyCard = ({ notepad }: IProps) => {
     };
 
     return (
-        <Card onClick={openModal}>
+        <Card onClick={openModal} sx={{ cursor: "pointer" }}>
             <CardContent>
                 <Box
                     sx={{
@@ -40,17 +40,25 @@ const MyCard = ({ notepad }: IProps) => {
                     }}
                 >
                     <Box>
-                        <Stack direction="row" spacing={1} alignItems="center" >
-                            <Typography variant="body2" component="div">Дата:</Typography>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Typography variant="body2" component="div">
+                                Дата:
+                            </Typography>
                             <Chip label={`${notepad.date.toLocaleDateString()}`} color="info" />
 
-                            <Typography variant="body2" component="div">Время:</Typography>
+                            <Typography variant="body2" component="div">
+                                Время:
+                            </Typography>
                             <Chip label={`${notepad.date.toLocaleTimeString()}`} color="info" />
 
-                            <Typography variant="body2" component="div">Приоритет:</Typography>
+                            <Typography variant="body2" component="div">
+                                Приоритет:
+                            </Typography>
                             <Chip label={`${notepad.type}`} color={PriorityColor[notepad.type]} />
 
-                            <Typography variant="body2" component="div">Тип:</Typography>
+                            <Typography variant="body2" component="div">
+                                Тип:
+                            </Typography>
                             <Chip
                                 label={notepad.status ? "Выполнено" : "Не Выполнено"}
                                 color={notepad.status ? "success" : "error"}
@@ -59,7 +67,19 @@ const MyCard = ({ notepad }: IProps) => {
                         <Typography variant="h4" component="div">
                             {notepad.name}
                         </Typography>
-                        <Typography variant="body1">{notepad.description}</Typography>
+                        {notepad.tasks?.map((task) => (
+                            <Typography
+                                variant="body2"
+                                component="li"
+                                key={task.id}
+                                sx={{
+                                    textDecoration: task.isChecked ? "line-through" : "none",
+                                    color: task.isChecked ? "gray" : "none"
+                                }}
+                            >
+                                {task.value}
+                            </Typography>
+                        ))}
                     </Box>
                     <Box>
                         <IconButton onClick={(event) => handleStatusChange(event)} aria-label="change-status">
