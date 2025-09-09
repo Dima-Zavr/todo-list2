@@ -4,7 +4,6 @@ import { INotepad } from "../interfaces/Notepad/NotepadInterface";
 export class NotepadModel {
     public id;
     public name;
-    public status;
     public type;
     public date;
     public tasks;
@@ -13,9 +12,8 @@ export class NotepadModel {
         makeAutoObservable(this, {}, { autoBind: true });
         this.id = modalData.id;
         this.name = modalData.name;
-        this.status = modalData.status ?? false;
         this.type = modalData.type;
-        this.date = new Date(modalData.date);
+        this.date = new Date(modalData.date ?? Date.now());
         this.tasks = modalData.tasks;
     }
 
@@ -30,14 +28,9 @@ export class NotepadModel {
         return {
             id: this.id,
             name: this.name,
-            status: this.status,
             type: this.type,
             date: this.date,
             tasks: this.tasks
         }
-    }
-
-    public setStatus() {
-        this.status = !this.status
     }
 }

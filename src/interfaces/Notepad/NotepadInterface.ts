@@ -14,11 +14,13 @@ export interface ITask {
     isChecked: boolean;
 }
 
-export interface INotepad {
-    id: number;
+export interface IModalData {
     name: string;
-    status?: boolean;
     type: Priority;
-    date: Date;
     tasks: ITask[];
+}
+
+export interface INotepad extends IModalData {
+    id: number;
+    date?: Date;
 }

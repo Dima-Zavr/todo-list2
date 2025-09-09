@@ -18,8 +18,8 @@ class NotepadStore {
     }
 
     public addNotepad(notepad: INotepad) {
-        const newNotepad = new NotepadModel({ ...notepad, id: Date.now() });
-        this.notepads.push(newNotepad);
+        const newNotepad = new NotepadModel({ ...notepad, id: Date.now(), date: new Date() });
+        this.notepads.unshift(newNotepad);
     }
 
     public removeNotepad(id: number) {

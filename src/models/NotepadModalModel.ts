@@ -6,7 +6,6 @@ export class NotepadModalModel extends ModalModel {
     public id = 0;
     public name = "";
     public type: Priority = "";
-    public date: Date = new Date();
     public tasks: ITask[] = [];
 
     constructor() {
@@ -35,11 +34,8 @@ export class NotepadModalModel extends ModalModel {
         this.id = data.id;
         this.name = data.name;
         this.type = data.type;
-        this.date = data.date;
         this.tasks = data.tasks;
     }
-
-
 
     public close() {
         this.isOpen = false;

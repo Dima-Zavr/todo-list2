@@ -1,6 +1,5 @@
 import { Card, Typography, CardContent, Box, IconButton, Stack, Chip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
 import { observer } from "mobx-react";
 import { modalStore } from "../../store/modalStore.ts";
 import { notepadStore } from "../../store/NotepadStore.ts";
@@ -17,11 +16,6 @@ const MyCard = ({ notepad }: IProps) => {
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         notepadStore.removeNotepad(notepad.id);
-    };
-
-    const handleStatusChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.stopPropagation();
-        notepad.setStatus();
     };
 
     const openModal = () => {
@@ -55,14 +49,6 @@ const MyCard = ({ notepad }: IProps) => {
                                 Приоритет:
                             </Typography>
                             <Chip label={`${notepad.type}`} color={PriorityColor[notepad.type]} />
-
-                            <Typography variant="body2" component="div">
-                                Тип:
-                            </Typography>
-                            <Chip
-                                label={notepad.status ? "Выполнено" : "Не Выполнено"}
-                                color={notepad.status ? "success" : "error"}
-                            />
                         </Stack>
                         <Typography variant="h4" component="div">
                             {notepad.name}
@@ -81,15 +67,9 @@ const MyCard = ({ notepad }: IProps) => {
                             </Typography>
                         ))}
                     </Box>
-                    <Box>
-                        <IconButton onClick={(event) => handleStatusChange(event)} aria-label="change-status">
-                            <CheckIcon />
-                        </IconButton>
-
-                        <IconButton onClick={handleDelete} aria-label="delete">
-                            <DeleteIcon />
-                        </IconButton>
-                    </Box>
+                    <IconButton onClick={handleDelete} aria-label="delete">
+                        <DeleteIcon />
+                    </IconButton>
                 </Box>
             </CardContent>
         </Card>
