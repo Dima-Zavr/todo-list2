@@ -8,7 +8,6 @@ class NotepadStore {
 
     constructor() {
         const newNotepad = JSON.parse(localStorage.getItem("notepads") ?? "[]");
-        console.log(newNotepad);
         newNotepad.forEach((el: INotepad) => {
             this.notepads.push(new NotepadModel(el));
         });
@@ -48,7 +47,7 @@ class NotepadStore {
     public sorted(str: string) {
         if (str in sortRules) {
             const sortFunction = sortRules[str as keyof typeof sortRules];
-            this.filterNotepads = this.notepads.sort(sortFunction);
+            this.filterNotepads = this.filterNotepads.sort(sortFunction);
         }
     }
 }
