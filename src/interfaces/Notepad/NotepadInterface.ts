@@ -1,12 +1,19 @@
-export type Priority = "Срочно и важно" | "Не срочно но важно" | "Срочно но неважно" | "Не срочно и неважно" | "";
+export type Priority = "1" | "2" | "3" | "4" | "";
 
 export const PriorityColor = {
-    "Срочно и важно": "error",
-    "Не срочно но важно": "warning",
-    "Срочно но неважно": "success",
-    "Не срочно и неважно": "primary",
+    "1": "error",
+    "2": "warning",
+    "3": "success",
+    "4": "primary",
     "": "primary"
-}
+};
+export const PriorityLabel = {
+    "1": "Срочно и важно",
+    "2": "Не срочно но важно",
+    "3": "Срочно но неважно",
+    "4": "Не срочно и неважно",
+    "": "Нет приоритета"
+};
 
 export interface ITask {
     id: number;

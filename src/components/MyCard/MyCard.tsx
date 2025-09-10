@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { modalStore } from "../../store/modalStore.ts";
 import { notepadStore } from "../../store/NotepadStore.ts";
 import { NotepadModel } from "../../models/NotepadModel.ts";
-import { PriorityColor } from "../../interfaces/Notepad/NotepadInterface.ts";
+import { PriorityColor, PriorityLabel } from "../../interfaces/Notepad/NotepadInterface.ts";
 
 interface IProps {
     notepad: NotepadModel;
@@ -38,17 +38,17 @@ const MyCard = ({ notepad }: IProps) => {
                             <Typography variant="body2" component="div">
                                 Дата:
                             </Typography>
-                            <Chip label={`${notepad.date.toLocaleDateString()}`} color="info" />
+                            <Chip label={notepad.date.toLocaleDateString()} color="info" />
 
                             <Typography variant="body2" component="div">
                                 Время:
                             </Typography>
-                            <Chip label={`${notepad.date.toLocaleTimeString()}`} color="info" />
+                            <Chip label={notepad.date.toLocaleTimeString()} color="info" />
 
                             <Typography variant="body2" component="div">
                                 Приоритет:
                             </Typography>
-                            <Chip label={`${notepad.type}`} color={PriorityColor[notepad.type]} />
+                            <Chip label={PriorityLabel[notepad.type]} color={PriorityColor[notepad.type]} />
                         </Stack>
                         <Typography variant="h4" component="div">
                             {notepad.name}

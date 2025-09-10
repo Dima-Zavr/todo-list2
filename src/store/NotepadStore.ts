@@ -44,6 +44,22 @@ class NotepadStore {
             );
         }
     }
+
+    public sorted(str: string) {
+        if (str in sortRules) {
+            const sortFunction = sortRules[str as keyof typeof sortRules];
+            this.filterNotepads = this.notepads.sort(sortFunction);
+        }
+    }
 }
 
 export const notepadStore = new NotepadStore();
+
+export const sortRules = {
+    "NameDown": (a: NotepadModel, b: NotepadModel) => a.name.localeCompare(b.name),
+    "NameUp": (a: NotepadModel, b: NotepadModel) => b.name.localeCompare(a.name),
+    "PriorityDown": (a: NotepadModel, b: NotepadModel) => Number(a.type) - Number(b.type),
+    "PriorityUp": (a: NotepadModel, b: NotepadModel) => Number(b.type) - Number(a.type),
+    "DateDown": (a: NotepadModel, b: NotepadModel) => Number(b.date) - Number(a.date),
+    "DateUp": (a: NotepadModel, b: NotepadModel) => Number(a.date) - Number(b.date)
+};

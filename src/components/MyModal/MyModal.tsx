@@ -101,10 +101,10 @@ const MyModal = () => {
                     onChange={(event) => modal.setType(event.target.value as Priority)}
                     required
                 >
-                    <MenuItem value="Срочно и важно">Срочно и важно</MenuItem>
-                    <MenuItem value="Не срочно но важно">Не срочно но важно</MenuItem>
-                    <MenuItem value="Срочно но неважно">Срочно но неважно</MenuItem>
-                    <MenuItem value="Не срочно и неважно">Не срочно и неважно</MenuItem>
+                    <MenuItem value="1">Срочно и важно</MenuItem>
+                    <MenuItem value="2">Не срочно но важно</MenuItem>
+                    <MenuItem value="3">Срочно но неважно</MenuItem>
+                    <MenuItem value="4">Не срочно и неважно</MenuItem>
                 </TextField>
                 <ArrayInput label="Введите задачу и нажмите Enter" startTasks={modal.tasks} />
 

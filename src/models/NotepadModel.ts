@@ -1,12 +1,12 @@
 import { makeAutoObservable } from "mobx";
-import { INotepad } from "../interfaces/Notepad/NotepadInterface";
+import { INotepad, ITask, Priority } from "../interfaces/Notepad/NotepadInterface";
 
 export class NotepadModel {
-    public id;
-    public name;
-    public type;
-    public date;
-    public tasks;
+    public id: number;
+    public name: string;
+    public type: Priority;
+    public date: Date;
+    public tasks: ITask[];
 
     constructor(modalData : INotepad) {
         makeAutoObservable(this, {}, { autoBind: true });
