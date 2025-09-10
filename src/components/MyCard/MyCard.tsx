@@ -48,7 +48,19 @@ const MyCard = ({ notepad }: IProps) => {
                             <Typography variant="body2" component="div">
                                 Приоритет:
                             </Typography>
-                            <Chip label={PriorityLabel[notepad.type]} color={PriorityColor[notepad.type]} />
+                            <Chip
+                                label={PriorityLabel[notepad.type]}
+                                color={
+                                    PriorityColor[notepad.type] as
+                                        | "default"
+                                        | "primary"
+                                        | "secondary"
+                                        | "error"
+                                        | "info"
+                                        | "success"
+                                        | "warning"
+                                }
+                            />
                         </Stack>
                         <Typography variant="h4" component="div">
                             {notepad.name}
