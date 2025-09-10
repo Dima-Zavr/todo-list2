@@ -1,4 +1,4 @@
-import { Container, Box, Typography, Fab } from "@mui/material";
+import { Container, Box, Typography, Fab, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { observer } from "mobx-react";
 import { notepadStore } from "./store/NotepadStore.ts";
@@ -22,9 +22,14 @@ const App = () => {
                         <AddIcon />
                     </Fab>
                 </Box>
-
+                <TextField
+                    label="Поиск по заметкам"
+                    variant="outlined"
+                    sx={{ width: "100%" }}
+                    onChange={(event) => notepadStore.search(event.target.value)}
+                />
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                    {notepadStore.notepads?.map((notepad) => <MyCard notepad={notepad} key={notepad.id} />)}
+                    {notepadStore.filterNotepads?.map((notepad) => <MyCard notepad={notepad} key={notepad.id} />)}
                 </Box>
             </Container>
             <MyModal />

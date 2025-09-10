@@ -4,9 +4,10 @@ import { INotepad } from "../interfaces/Notepad/NotepadInterface";
 
 class NotepadStore {
     public notepads: NotepadModel[] = [];
+    public filterNotepads: NotepadModel[] = [];
 
     constructor() {
-        const newNotepad = JSON.parse(localStorage.getItem("notepads") ?? '[]');
+        const newNotepad = JSON.parse(localStorage.getItem("notepads") ?? "[]");
         console.log(newNotepad);
         newNotepad.forEach((el: INotepad) => {
             this.notepads.push(new NotepadModel(el));
@@ -14,6 +15,7 @@ class NotepadStore {
         makeAutoObservable(this, {}, { autoBind: true });
         autorun(() => {
             localStorage.setItem("notepads", JSON.stringify(this.notepads));
+            this.filterNotepads = this.notepads;
         });
     }
 
@@ -29,6 +31,18 @@ class NotepadStore {
     public updateNotepad(notepad: INotepad) {
         const index = this.notepads.findIndex((el) => el.id === notepad.id);
         this.notepads[index].setData(notepad);
+    }
+
+    public search(str: string) {
+        if (str === "") {
+            this.filterNotepads = this.notepads;
+        } else {
+            this.filterNotepads = this.notepads.filter(
+                (notepad) =>
+                    notepad.name.toLowerCase().includes(str.trim().toLowerCase()) ||
+                    notepad.tasks.some((task) => task.value.toLowerCase().includes(str.trim().toLowerCase()))
+            );
+        }
     }
 }
 
