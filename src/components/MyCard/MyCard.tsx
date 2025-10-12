@@ -8,9 +8,10 @@ import { PriorityColor, PriorityLabel } from "../../interfaces/Notepad/NotepadIn
 
 interface IProps {
     notepad: NotepadModel;
+    isVisible: boolean;
 }
 
-const MyCard = ({ notepad }: IProps) => {
+const MyCard = ({ notepad, isVisible }: IProps) => {
     const { modal } = modalStore;
 
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -24,7 +25,19 @@ const MyCard = ({ notepad }: IProps) => {
     };
 
     return (
-        <Card onClick={openModal} sx={{ cursor: "pointer" }}>
+        <Card 
+            onClick={openModal} 
+            sx={{ 
+                cursor: "pointer",
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateX(0)' : 'translateX(-30px)',
+                transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                height: isVisible ? 'auto' : 0,
+                overflow: 'hidden',
+                marginBottom: isVisible ? 2 : 0,
+                width: '100%',
+            }}
+        >
             <CardContent>
                 <Box
                     sx={{

@@ -5,9 +5,15 @@ import { notepadStore } from "./store/NotepadStore.ts";
 import { modalStore } from "./store/modalStore.ts";
 import MyModal from "./components/MyModal/MyModal.tsx";
 import MyCard from "./components/MyCard/MyCard.tsx";
+import { Spinner } from "./components/Spin/Spin.tsx";
+import { useSequentialAnimation } from "./components/useSequentialAnimation/useSequentialAnimation.tsx";
+import { NotepadModel } from "./models/NotepadModel.ts";
 
 const App = () => {
     const { modal } = modalStore;
+
+    const visibleStates = useSequentialAnimation<NotepadModel>(notepadStore.filterNotepads || [], 200);
+
     return (
         <>
             <Container maxWidth="lg">
@@ -31,7 +37,7 @@ const App = () => {
                     variant="outlined"
                     margin="normal"
                     name="type"
-                    sx={{ width: "300px"}}
+                    sx={{ width: "300px" }}
                     onChange={(event) => notepadStore.sorted(event.target.value)}
                 >
                     <MenuItem value="NameDown">Название (А-Я)</MenuItem>
@@ -41,8 +47,14 @@ const App = () => {
                     <MenuItem value="DateDown">Дата (по возрастанию)</MenuItem>
                     <MenuItem value="DateUp">Дата (по убыванию)</MenuItem>
                 </TextField>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                    {notepadStore.filterNotepads?.map((notepad) => <MyCard notepad={notepad} key={notepad.id} />)}
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2, alignItems: "center" }}>
+                    {notepadStore.filterNotepads?.length > 0 ? (
+                        notepadStore.filterNotepads.map((notepad, index) => (
+                            <MyCard notepad={notepad} key={notepad.id} isVisible={visibleStates[index] || false} />
+                        ))
+                    ) : (
+                        <Spinner />
+                    )}
                 </Box>
             </Container>
             <MyModal />
